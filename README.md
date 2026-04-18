@@ -14,6 +14,7 @@ Deterministic full-stack scaffold for a Replit-style neon dashboard with governa
 1. Copy env templates:
    - `backend/.env.example` -> `backend/.env`
    - `frontend/.env.local.example` -> `frontend/.env.local`
+   - Generate a strong JWT secret (example): `node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"`
 2. Bootstrap:
    - `pwsh ./bootstrap.ps1`
 3. Run backend:
