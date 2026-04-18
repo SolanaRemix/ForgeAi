@@ -28,6 +28,7 @@ Deterministic full-stack scaffold for a Replit-style neon dashboard with governa
 - `pricing_tiers(id, name, monthly_usd, features)`
 
 If `DATABASE_URL` is unset, backend serves deterministic fallback data.
+Auth endpoints also run in scaffold mode with in-memory users unless persistent storage is configured.
 
 ## Governance Modules
 

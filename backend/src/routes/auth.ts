@@ -7,6 +7,7 @@ import { HttpError } from "../middleware/error-handler";
 
 type UserRecord = { id: string; email: string; passwordHash: string; name: string };
 const users = new Map<string, UserRecord>();
+const DEMO_AUTH_WARNING = "Auth is running in scaffold mode with in-memory users; configure persistent storage for production.";
 
 const signupSchema = z.object({
   email: z.string().email(),
@@ -42,7 +43,11 @@ authRouter.post("/auth/signup", async (req, res) => {
   users.set(user.email, user);
 
   const token = jwt.sign({ sub: user.id, email: user.email }, env.JWT_SECRET, { expiresIn: "1h" });
-  res.status(201).json({ token, user: { id: user.id, email: user.email, name: user.name } });
+  res.status(201).json({
+    token,
+    user: { id: user.id, email: user.email, name: user.name },
+    warning: DEMO_AUTH_WARNING
+  });
 });
 
 authRouter.post("/auth/login", async (req, res) => {
@@ -62,5 +67,9 @@ authRouter.post("/auth/login", async (req, res) => {
   }
 
   const token = jwt.sign({ sub: user.id, email: user.email }, env.JWT_SECRET, { expiresIn: "1h" });
-  res.json({ token, user: { id: user.id, email: user.email, name: user.name } });
+  res.json({
+    token,
+    user: { id: user.id, email: user.email, name: user.name },
+    warning: DEMO_AUTH_WARNING
+  });
 });
