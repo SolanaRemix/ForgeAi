@@ -1,15 +1,20 @@
 {
-  "name": "backend",
+  "name": "forgeai-backend",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
+  "private": true,
+  "description": "ForgeAI Express/WebSocket backend scaffold",
+  "main": "dist/server.js",
   "type": "commonjs",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc --project tsconfig.json",
+    "start": "node dist/server.js",
+    "lint": "tsc --noEmit --project tsconfig.json",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
   "dependencies": {
     "@supabase/supabase-js": "2.103.3",
     "bcryptjs": "3.0.3",
