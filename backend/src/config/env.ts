@@ -10,7 +10,7 @@ const EnvSchema = z.object({
   DATABASE_URL: z.string().min(1).optional(),
   SUPABASE_URL: z.string().url().optional(),
   SUPABASE_SERVICE_ROLE_KEY: z.string().min(1).optional(),
-  JWT_SECRET: z.string().min(32).default("replace-with-32-plus-character-secret")
+  JWT_SECRET: z.string().min(32)
 });
 
 const parsed = EnvSchema.safeParse(process.env);
