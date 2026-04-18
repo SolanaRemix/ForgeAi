@@ -17,7 +17,7 @@ body {
   min-height: 100vh;
   background: radial-gradient(circle at 20% 20%, #101f42, var(--bg) 52%);
   color: var(--text);
-  font-family: var(--font-geist-sans), system-ui, sans-serif;
+  font-family: "Inter", "Segoe UI", system-ui, sans-serif;
 }
 
 .shell {
