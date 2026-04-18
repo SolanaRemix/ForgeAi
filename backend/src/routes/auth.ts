@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { randomUUID } from "crypto";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { z } from "zod";
@@ -34,7 +35,7 @@ authRouter.post("/auth/signup", async (req, res) => {
 
   const passwordHash = await bcrypt.hash(parsed.data.password, 10);
   const user: UserRecord = {
-    id: `user_${users.size + 1}`,
+    id: `user_${randomUUID()}`,
     email: parsed.data.email,
     passwordHash,
     name: parsed.data.name
