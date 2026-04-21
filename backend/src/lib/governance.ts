@@ -16,7 +16,9 @@ const GovernanceManifestSchema = z.object({
 
 type GovernanceManifest = z.infer<typeof GovernanceManifestSchema>;
 
-const governanceManifestPath = path.resolve(__dirname, "..", "..", "..", "governance", "repo-brain", "modules.json");
+const DEFAULT_MANIFEST_PATH = path.resolve(process.cwd(), "..", "governance", "repo-brain", "modules.json");
+const GOVERNANCE_MODE_ENFORCE = "enforce";
+const governanceManifestPath = process.env.GOVERNANCE_MANIFEST_PATH ?? DEFAULT_MANIFEST_PATH;
 let cachedManifest: GovernanceManifest | null = null;
 
 function readManifest(): GovernanceManifest {
@@ -39,6 +41,6 @@ export function listGovernanceModules() {
   return manifest.modules.map((module) => ({
     name: module.name,
     enabled: module.enforced,
-    mode: "enforce"
+    mode: GOVERNANCE_MODE_ENFORCE
   }));
 }
