@@ -1,0 +1,40 @@
+{
+  "name": "forgeai-backend",
+  "version": "1.0.0",
+  "private": true,
+  "description": "ForgeAI Express/WebSocket backend scaffold",
+  "main": "dist/server.js",
+  "type": "commonjs",
+  "scripts": {
+    "dev": "tsx watch src/server.ts",
+    "build": "tsc --project tsconfig.json",
+    "start": "node dist/server.js",
+    "lint": "tsc --noEmit --project tsconfig.json",
+    "test": "node --test"
+  },
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "dependencies": {
+    "@supabase/supabase-js": "2.103.3",
+    "bcryptjs": "3.0.3",
+    "cors": "2.8.6",
+    "dotenv": "17.4.2",
+    "express": "5.2.1",
+    "helmet": "8.1.0",
+    "jsonwebtoken": "9.0.3",
+    "pg": "8.20.0",
+    "ws": "8.20.0",
+    "zod": "4.3.6"
+  },
+  "devDependencies": {
+    "@types/cors": "2.8.19",
+    "@types/express": "5.0.5",
+    "@types/jsonwebtoken": "9.0.10",
+    "@types/node": "24.9.1",
+    "@types/pg": "8.20.0",
+    "@types/ws": "8.18.1",
+    "tsx": "4.20.6",
+    "typescript": "5.9.3"
+  }
+}
