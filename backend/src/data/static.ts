@@ -26,18 +26,3 @@ export const staticPricing: readonly PricingTier[] = Object.freeze([
   { id: "pro", name: "Pro", monthlyUsd: 79, features: ["25 projects", "Auto-repair", "AI-Guard + Firewall"] },
   { id: "fleet", name: "Fleet", monthlyUsd: 249, features: ["Unlimited projects", "Fleet governance", "Fix.Safe rollbacks"] }
 ]);
-
-export const governanceModules = Object.freeze([
-  "Hospital",
-  "Detect",
-  "Doctor",
-  "Surgeon",
-  "Verify",
-  "AI-Guard",
-  "Firewall",
-  "Vitals",
-  "Fleet",
-  "Autopsy",
-  "Genome",
-  "Fix.Safe"
-]);

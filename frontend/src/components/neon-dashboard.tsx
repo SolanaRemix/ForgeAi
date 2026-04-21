@@ -34,6 +34,7 @@ export function NeonDashboard() {
   const [pricing, setPricing] = useState<Pricing[]>(initialPricing);
   const [integrations, setIntegrations] = useState<Integration[]>(initialIntegrations);
   const [socketState, setSocketState] = useState("disconnected");
+  const [authMessage, setAuthMessage] = useState("");
 
   useEffect(() => {
     void fetch(`${apiBaseUrl}/projects`).then((r) => r.json()).then(setProjects).catch(() => undefined);
@@ -48,6 +49,51 @@ export function NeonDashboard() {
 
     return () => ws.close();
   }, []);
+
+  const handleLoginSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const form = new FormData(event.currentTarget);
+    const email = String(form.get("email") ?? "");
+    const password = String(form.get("password") ?? "");
+
+    try {
+      const response = await fetch(`${apiBaseUrl}/auth/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, password })
+      });
+
+      if (!response.ok) {
+        throw new Error("Login failed");
+      }
+      setAuthMessage("Login successful.");
+    } catch {
+      setAuthMessage("Login failed. Check credentials.");
+    }
+  };
+
+  const handleSignupSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    const form = new FormData(event.currentTarget);
+    const name = String(form.get("name") ?? "");
+    const email = String(form.get("email") ?? "");
+    const password = String(form.get("password") ?? "");
+
+    try {
+      const response = await fetch(`${apiBaseUrl}/auth/signup`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, password })
+      });
+
+      if (!response.ok) {
+        throw new Error("Signup failed");
+      }
+      setAuthMessage("Signup successful.");
+    } catch {
+      setAuthMessage("Signup failed. Try a different email.");
+    }
+  };
 
   return (
     <main className="shell">
@@ -99,19 +145,20 @@ export function NeonDashboard() {
 
           {active === "auth" && (
             <div className="auth-wrap">
-              <form className="card">
+              <form className="card" onSubmit={handleLoginSubmit}>
                 <h3>Login</h3>
-                <input placeholder="email" type="email" required />
-                <input placeholder="password" type="password" minLength={8} required />
+                <input name="email" placeholder="email" type="email" required />
+                <input name="password" placeholder="password" type="password" minLength={8} required />
                 <button type="submit">Sign In</button>
               </form>
-              <form className="card">
+              <form className="card" onSubmit={handleSignupSubmit}>
                 <h3>Signup</h3>
-                <input placeholder="name" required />
-                <input placeholder="email" type="email" required />
-                <input placeholder="password" type="password" minLength={8} required />
+                <input name="name" placeholder="name" required />
+                <input name="email" placeholder="email" type="email" required />
+                <input name="password" placeholder="password" type="password" minLength={8} required />
                 <button type="submit">Create Account</button>
               </form>
+              {authMessage ? <p>{authMessage}</p> : null}
             </div>
           )}
 

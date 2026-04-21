@@ -1,5 +1,5 @@
 import type { Server } from "http";
-import { WebSocketServer } from "ws";
+import { WebSocket, WebSocketServer } from "ws";
 
 export type RuntimeMetrics = {
   activeConnections: number;
@@ -17,7 +17,7 @@ export function createSocketServer(server: Server, getMetrics: () => RuntimeMetr
   const timer = setInterval(() => {
     const payload = JSON.stringify({ type: "vitals", payload: getMetrics() });
     for (const client of wss.clients) {
-      if (client.readyState === client.OPEN) {
+      if (client.readyState === WebSocket.OPEN) {
         client.send(payload);
       }
     }

@@ -41,8 +41,12 @@ app.use(errorHandler);
 const server = http.createServer(app);
 const socketServer = createSocketServer(server, () => ({ ...metrics }));
 
-socketServer.on("connection", () => {
+socketServer.on("connection", (socket) => {
   metrics.activeConnections = socketServer.clients.size;
+
+  socket.on("close", () => {
+    metrics.activeConnections = socketServer.clients.size;
+  });
 });
 socketServer.on("close", () => {
   metrics.activeConnections = socketServer.clients.size;

@@ -35,7 +35,7 @@ authRouter.post("/auth/signup", async (req, res) => {
 
   const passwordHash = await bcrypt.hash(parsed.data.password, 10);
   const user: UserRecord = {
-    id: `user_${randomUUID()}`,
+    id: randomUUID(),
     email: parsed.data.email,
     passwordHash,
     name: parsed.data.name
