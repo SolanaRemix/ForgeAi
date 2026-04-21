@@ -64,11 +64,12 @@ export function NeonDashboard() {
       });
 
       if (!response.ok) {
-        throw new Error("Login failed");
+        const payload = (await response.json().catch(() => null)) as { error?: { message?: string } } | null;
+        throw new Error(payload?.error?.message ?? "Login failed");
       }
       setAuthMessage("Login successful.");
-    } catch {
-      setAuthMessage("Login failed. Check credentials.");
+    } catch (error) {
+      setAuthMessage(error instanceof Error ? error.message : "Login failed. Check credentials.");
     }
   };
 
@@ -87,11 +88,12 @@ export function NeonDashboard() {
       });
 
       if (!response.ok) {
-        throw new Error("Signup failed");
+        const payload = (await response.json().catch(() => null)) as { error?: { message?: string } } | null;
+        throw new Error(payload?.error?.message ?? "Signup failed");
       }
       setAuthMessage("Signup successful.");
-    } catch {
-      setAuthMessage("Signup failed. Try a different email.");
+    } catch (error) {
+      setAuthMessage(error instanceof Error ? error.message : "Signup failed. Try a different email.");
     }
   };
 

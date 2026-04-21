@@ -1,23 +1,37 @@
 import fs from "node:fs";
 import path from "node:path";
+import { z } from "zod";
 
-type GovernanceModule = {
-  name: string;
-  description: string;
-  enforced: boolean;
-};
+const GovernanceManifestSchema = z.object({
+  version: z.string(),
+  immutable: z.boolean(),
+  modules: z.array(
+    z.object({
+      name: z.string(),
+      description: z.string(),
+      enforced: z.boolean()
+    })
+  )
+});
 
-type GovernanceManifest = {
-  version: string;
-  immutable: boolean;
-  modules: GovernanceModule[];
-};
+type GovernanceManifest = z.infer<typeof GovernanceManifestSchema>;
 
-const governanceManifestPath = path.resolve(process.cwd(), "..", "governance", "repo-brain", "modules.json");
+const governanceManifestPath = path.resolve(__dirname, "..", "..", "..", "governance", "repo-brain", "modules.json");
+let cachedManifest: GovernanceManifest | null = null;
 
 function readManifest(): GovernanceManifest {
-  const raw = fs.readFileSync(governanceManifestPath, "utf8");
-  return JSON.parse(raw) as GovernanceManifest;
+  if (cachedManifest) {
+    return cachedManifest;
+  }
+
+  try {
+    const raw = fs.readFileSync(governanceManifestPath, "utf8");
+    const parsed = GovernanceManifestSchema.parse(JSON.parse(raw));
+    cachedManifest = parsed;
+    return parsed;
+  } catch (error) {
+    throw new Error(`Unable to read governance manifest at ${governanceManifestPath}: ${String(error)}`);
+  }
 }
 
 export function listGovernanceModules() {
@@ -28,4 +42,3 @@ export function listGovernanceModules() {
     mode: "enforce"
   }));
 }
-
